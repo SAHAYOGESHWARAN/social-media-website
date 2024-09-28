@@ -5,6 +5,8 @@ const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
 const postRoutes = require('./routes/postRoutes');
+const authRoutes = require('./routes/authRoutes');
+
 
 const app = express();
 app.use(cors());
@@ -25,6 +27,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes
 app.use('/api/posts', postRoutes);
+app.use('/api/auth', authRoutes);
 
 // MongoDB connection
 mongoose.connect('mongodb://localhost:27017/socialMediaApp', {
