@@ -1,21 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import axios from './services/axiosInstance';
-import Post from './components/Post';
+
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Login from './components/Login';
+import Signup from './components/Signup';
+import Home from './components/Home';
 
 function App() {
-  const [posts, setPosts] = useState([]);
-
-  useEffect(() => {
-    axios.get('/posts').then(res => setPosts(res.data));
-  }, []);
-
   return (
-    <div>
-      <h1>Social Media Feed</h1>
-      {posts.map(post => (
-        <Post key={post._id} post={post} />
-      ))}
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/login" component={Login} />
+        <Route path="/signup" component={Signup} />
+        <Route path="/" component={Home} />
+      </Switch>
+    </Router>
   );
 }
 
