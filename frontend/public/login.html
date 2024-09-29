@@ -1,4 +1,4 @@
-<!-- File path: E:\social-media-website\frontend\public\login.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,17 +33,33 @@
 
     <!-- Main Content -->
     <main>
-        <section id="login">
+        <section id="login" class="login-section">
             <h2>Login</h2>
-            <form action="/login" method="POST">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
+            <form action="/login" method="POST" class="login-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
 
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
 
                 <button type="submit" class="login-button">Login</button>
+
+                <!-- Forgot Password Link -->
+                <div class="forgot-password">
+                    <a href="/forgot-password">Forgot Password?</a>
+                </div>
             </form>
+
+            <!-- Optional Google Sign-In -->
+            <div class="divider">
+                <p>OR</p>
+            </div>
+
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
         </section>
     </main>
 
@@ -51,5 +67,19 @@
     <footer>
         <p>&copy; 2024 Social Media Website. All rights reserved.</p>
     </footer>
+
+    <!-- Google OAuth Sign-in success function (Optional) -->
+    <script>
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log('ID: ' + profile.getId()); // Do not send to your backend!
+            console.log('Name: ' + profile.getName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail());
+            
+            var id_token = googleUser.getAuthResponse().id_token;
+            console.log('ID Token: ' + id_token);
+        }
+    </script>
 </body>
 </html>

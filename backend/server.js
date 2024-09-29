@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const multer = require('multer');
+const dotenv = require('dotenv');
 const path = require('path');
 const postRoutes = require('./routes/postRoutes');
 const authRoutes = require('./routes/authRoutes');
