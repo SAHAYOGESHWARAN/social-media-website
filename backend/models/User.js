@@ -19,6 +19,7 @@ const UserSchema = new mongoose.Schema({
         }
     },
     password: { type: String, required: true },
+    role: { type: String, default: 'user', enum: ['user', 'admin'] } // Optional role field
 }, { timestamps: true });
 
 // Hash password before saving
@@ -37,7 +38,7 @@ UserSchema.methods.comparePassword = async function(password) {
 
 // Instance method to generate JWT
 UserSchema.methods.generateAuthToken = function() {
-    const token = jwt.sign({ id: this._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: this._id, role: this.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
     return token;
 };
 
