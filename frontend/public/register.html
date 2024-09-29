@@ -39,7 +39,7 @@
             <h2>Register</h2>
 
             <!-- Email/Password Registration Form -->
-            <form action="/register" method="POST" class="register-form">
+            <form class="register-form">
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input type="text" id="username" name="username" required>
@@ -80,50 +80,40 @@
             console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
             console.log('Name: ' + profile.getName());
             console.log('Image URL: ' + profile.getImageUrl());
-            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+            console.log('Email: ' + profile.getEmail());
             
             // Send the Google token to your server if needed
             var id_token = googleUser.getAuthResponse().id_token;
             console.log('ID Token: ' + id_token);
-
-            // Optionally send the token to your backend for further processing.
         }
 
-        // Sign out function (optional)
-        function signOut() {
-            var auth2 = gapi.auth2.getAuthInstance();
-            auth2.signOut().then(function () {
-                console.log('User signed out.');
+        // Function to handle registration
+        async function registerUser(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            const response = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, email, password })
             });
+
+            const data = await response.json();
+            
+            if (response.ok) {
+                alert('Registration successful! Please log in.');
+                // Redirect to login page after successful registration
+                window.location.href = 'login.html';
+            } else {
+                alert(data.message);
+            }
         }
 
-        // Add this function to your app.js
-async function registerUser(event) {
-    event.preventDefault();
-    
-    const username = document.getElementById('username').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-
-    const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, email, password })
-    });
-
-    const data = await response.json();
-    
-    if (response.ok) {
-        alert('Registration successful!');
-        // Redirect to login or home page
-    } else {
-        alert(data.message);
-    }
-}
-
-// Bind registerUser function to the form submission
-document.querySelector('.register-form').addEventListener('submit', registerUser);
-
+        // Bind registerUser function to the form submission
+        document.querySelector('.register-form').addEventListener('submit', registerUser);
     </script>
 </body>
 </html>
